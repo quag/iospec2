@@ -15,10 +15,15 @@ describe := method(
 		bodyContext setSlot(stateSlotName,
 			method(shouldName,
 				Lobby exampleCount = exampleCount + 1
-				writeln(" - ", shouldName)
 
 				testContext := Object clone
-				try(call argAt(1) doInContext(testContext)) ?showStack
+				e := try(call argAt(1) doInContext(testContext))
+				if(e,
+					failureErrors append(e)
+					writeln(" - ", shouldName, " [Error ", failureErrors size, "]")
+				,
+					writeln(" - ", shouldName)
+				)
 			)
 		)
 	)
@@ -28,14 +33,20 @@ describe := method(
 )
 
 exampleCount := 0
-failureCount := 0
+failureErrors := list
 
 writeln
 time := Date cpuSecondsToRun(
 	doFile(args at(1))
 )
-
 writeln
+
+failureErrors foreach(i, error,
+	write("Error ", i + 1, ":")
+	error showStack
+)
+failureCount := failureErrors size
+
 writeln("Finished in ", time, " seconds")
 writeln
-writeln(exampleCount, " examples, ", failureCount, " failures")
+writeln(exampleCount, if(exampleCount == 1, " example, ", " examples, "), failureCount, if(failureCount == 1, " failure", " failures"))
