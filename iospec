@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 AssertionFailed := Exception clone
 
 Object verify := method(
@@ -23,7 +25,7 @@ BodyContext := Object clone do(
 	)
 
 	describe := method(
-		if(call argCount == 1,
+		if(call argCount == 2,
 			stateSlotName := nil
 			describedState := call evalArgAt(0)
 			bodyMessage := call argAt(1)
