@@ -1,0 +1,2 @@
+WebUser := Object clone do(
+)
