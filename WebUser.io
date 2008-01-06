@@ -1,9 +1,11 @@
 WebUser := Object clone do(
-	inRole := method(
-		true
+	lazySlot("roles", list)
+
+	inRole := method(role,
+		roles contains(role)
 	)
 
 	assignRole := method(role,
-		nil
+		roles append(role)
 	)
 )
