@@ -16,3 +16,19 @@ describe(webUser, WebUser,
 		user verify(inRole("assigned role") not)
 	)
 )
+
+
+describe(webUser, WebUser,
+	setup(
+		user := WebUser clone
+	)
+
+	webUser("should be in any roles assigned to it",
+		user assignRole("assigned role")
+		user verify(inRole("assigned role"))
+	)
+
+	webUser("should NOT be in any roles not assigned to it",
+		user verify(inRole("assigned role") not)
+	)
+)

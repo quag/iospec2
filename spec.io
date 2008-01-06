@@ -9,8 +9,8 @@ Object verify := method(
 )
 
 BodyContext := Object clone do(
-	newSlot("setupMessage", Message)
-	newSlot("teardownMessage", Message)
+	newSlot("setupMessage", message(nil))
+	newSlot("teardownMessage", message(nil))
 
 	setup := method(
 		setupMessage = call argAt(0)
@@ -24,12 +24,16 @@ BodyContext := Object clone do(
 describe := method(
 	if(call argCount == 1,
 		stateSlotName := nil
-		describedState := call evalArgAt(0) type
+		describedState := call evalArgAt(0)
 		bodyMessage := call argAt(1)
 	,
 		stateSlotName := call argAt(0) name
-		describedState := call evalArgAt(1) type
+		describedState := call evalArgAt(1)
 		bodyMessage := call argAt(2)
+	)
+
+	if(describedState type != "Sequence",
+		describedState = describedState type
 	)
 
 	bodyContext := BodyContext clone
@@ -57,6 +61,7 @@ describe := method(
 
 	writeln(describedState)
 	bodyMessage doInContext(bodyContext)
+	writeln
 )
 
 exampleCount := 0
@@ -66,7 +71,6 @@ writeln
 time := Date cpuSecondsToRun(
 	doFile(args at(1))
 )
-writeln
 
 failureErrors foreach(i, error,
 	write("Error ", i + 1, ":")
