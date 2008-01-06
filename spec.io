@@ -1,3 +1,13 @@
+AssertionFailed := Exception clone
+
+Object verify := method(
+	if(self doMessage(call argAt(0), call sender),
+		self
+	,
+		AssertionFailed raise(call argAt(0) code)
+	)
+)
+
 describe := method(
 	if(call argCount == 1,
 		stateSlotName := nil
