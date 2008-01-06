@@ -8,6 +8,19 @@ Object verify := method(
 	)
 )
 
+BodyContext := Object clone do(
+	newSlot("setupMessage", Message)
+	newSlot("teardownMessage", Message)
+
+	setup := method(
+		setupMessage = call argAt(0)
+	)
+
+	teardown := method(
+		teardownMessage = call argAt(0)
+	)
+)
+
 describe := method(
 	if(call argCount == 1,
 		stateSlotName := nil
@@ -19,7 +32,7 @@ describe := method(
 		bodyMessage := call argAt(2)
 	)
 
-	bodyContext := Object clone
+	bodyContext := BodyContext clone
 
 	if(stateSlotName,
 		bodyContext setSlot(stateSlotName,
@@ -27,7 +40,11 @@ describe := method(
 				Lobby exampleCount = exampleCount + 1
 
 				testContext := Object clone
-				e := try(call argAt(1) doInContext(testContext))
+				e := try(
+					setupMessage doInContext(testContext)
+					call argAt(1) doInContext(testContext)
+					teardownMessage doInContext(testContext)
+				)
 				if(e,
 					failureErrors append(e)
 					writeln(" - ", shouldName, " [Error ", failureErrors size, "]")
