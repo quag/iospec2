@@ -9,19 +9,22 @@ describe := method(
 		bodyMessage := call argAt(2)
 	)
 
-	context := Object clone
+	bodyContext := Object clone
 
 	if(stateSlotName,
-		context setSlot(stateSlotName,
+		bodyContext setSlot(stateSlotName,
 			method(shouldName,
 				Lobby exampleCount = exampleCount + 1
 				writeln(" - ", shouldName)
+
+				testContext := Object clone
+				try(call argAt(1) doInContext(testContext)) ?showStack
 			)
 		)
 	)
 
 	writeln(describedState)
-	bodyMessage doInContext(context)
+	bodyMessage doInContext(bodyContext)
 )
 
 exampleCount := 0
