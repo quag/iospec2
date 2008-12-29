@@ -132,4 +132,4 @@ failureCount := failureErrors size
 
 writeln("Finished in ", time, " seconds")
 writeln
-writeln(exampleCount, if(exampleCount == 1, " example, ", " examples, "), failureCount, if(failureCount == 1, " failure", " failures"))
+writeln(if(specs size == 1, "", specs size .. " specs, "), exampleCount, if(exampleCount == 1, " example, ", " examples, "), failureCount, if(failureCount == 1, " failure", " failures"))
