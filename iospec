@@ -100,7 +100,9 @@ failureErrors := list
 
 writeln
 time := Date cpuSecondsToRun(
-	BodyContext clone doFile(System args at(1))
+	System args exSlice(1) foreach(spec,
+		BodyContext clone doFile(spec)
+	)
 )
 
 failureErrors foreach(i, error,
