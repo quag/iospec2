@@ -1,3 +1,5 @@
+#!/usr/bin/env iospec
+
 describe(webUser, WebUser,
 	setup(
 		user := WebUser clone

@@ -1,3 +1,5 @@
+#!/usr/bin/env iospec
+
 describe(List,
 	
 	describe(sort, "sort",

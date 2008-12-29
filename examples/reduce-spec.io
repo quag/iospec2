@@ -1,3 +1,5 @@
+#!/usr/bin/env iospec
+
 describe(emptyList, "Empty list",
     setup(
         e := list
